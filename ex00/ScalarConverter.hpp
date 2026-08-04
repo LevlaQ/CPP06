@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/03 18:03:16 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/04 15:12:23 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <cstdlib> //strtod()
 # include <limits> //for INT_MAX
 # include <cctype> //isprint()
+# include <iomanip> //setprecision()
 
 enum e_pseudoLiteral
 {
@@ -32,6 +33,7 @@ enum e_pseudoLiteral
 struct s_Scalar
 {
 	double			value;
+	const char		*c_string;
 	e_pseudoLiteral	type;
 };
 

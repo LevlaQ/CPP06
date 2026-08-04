@@ -6,19 +6,28 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:30 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/03 17:37:10 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/04 19:31:43 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
+#include <typeinfo>
 
 int	main(int ac, char **ag)
 {
-
-	if (ac != 2)
-		std::cout << "Proper usage: ./<program> <literal>" << std::endl;
 	
+	if (ac != 2)
+	{
+		std::cout << "Proper usage: ./<program> <literal>" << std::endl;
+		return (1);
+	}
 	std::string	literal = ag[1];
+
+	// char	*end;
+	// std::strtod("f.", &end);
+	// std::cout << *end << std::endl;
+	// std::cout << typeid(*end).name() << std::endl;
+	//std::cout << std::fixed << std::setprecision(1) << static_cast<float>(std::strtod("17.f", 0)) << std::endl;
 	try
 	{
 		ScalarConverter::converter(literal);
