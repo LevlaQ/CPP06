@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/04 15:12:23 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/04 19:51:18 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ enum e_pseudoLiteral
 	P_INF,
 	N_INF,
 	NAN,
-	P_INFF,
-	N_INFF,
-	NANF,
 	REAL
 };
 

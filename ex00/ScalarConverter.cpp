@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/04 19:32:40 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/04 20:03:52 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ const char	*ScalarConverter::ImproperLiteral::what() const throw()
 	return ("Literal you have used is improper");
 }
 
-void	isStringSpace(int str_length, char *&end, s_Scalar &scalar)
+static void	isStringSpace(int str_length, char *&end, s_Scalar &scalar)
 {
 	if (str_length > 1)
 	{
@@ -51,7 +51,7 @@ void	isStringSpace(int str_length, char *&end, s_Scalar &scalar)
 	}
 }
 
-void	syntax_check(std::string &literal, s_Scalar &scalar)
+static void	syntax_check(std::string &literal, s_Scalar &scalar)
 {
 	char	*end;
 	int		str_length = literal.length();
@@ -80,10 +80,27 @@ void	syntax_check(std::string &literal, s_Scalar &scalar)
 	}
 }
 
+static void isPseudo(std::string &literal, s_Scalar &scalar)
+{
+	if (literal == "inf" || literal == "+inf" || literal == "inff" ||\
+		literal == "+inff")
+		scalar.type = P_INF;
+	else if (literal == "-inf" || literal == "-inff")
+		scalar.type = N_INF;
+	else if (literal == "nan" || literal == "nanf")
+		scalar.type = NAN;
+	else
+		scalar.type = REAL;
+}
+
+
 void	ScalarConverter::converter(std::string &literal)
 {
 	s_Scalar	scalar;
 
+	isPseudo(literal, scalar);
+	//Eğer real ise syntax check yapılacak
 	syntax_check(literal, scalar);
+	
 	
 }
