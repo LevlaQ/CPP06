@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:30 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/04 19:31:43 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/05 21:44:06 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **ag)
 	// std::strtod("f.", &end);
 	// std::cout << *end << std::endl;
 	// std::cout << typeid(*end).name() << std::endl;
-	//std::cout << std::fixed << std::setprecision(1) << static_cast<float>(std::strtod("17.f", 0)) << std::endl;
+	std::cout << std::fixed << std::setprecision(1) << static_cast<float>(std::strtod("nan", 0)) << std::endl;
 	try
 	{
 		ScalarConverter::converter(literal);

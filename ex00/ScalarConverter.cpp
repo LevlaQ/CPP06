@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/04 20:03:52 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/05 21:31:12 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,20 +87,45 @@ static void isPseudo(std::string &literal, s_Scalar &scalar)
 		scalar.type = P_INF;
 	else if (literal == "-inf" || literal == "-inff")
 		scalar.type = N_INF;
-	else if (literal == "nan" || literal == "nanf")
-		scalar.type = NAN;
+	else if (literal == "N_NAN" || literal == "N_NANf")
+		scalar.type = N_NAN;
 	else
 		scalar.type = REAL;
 }
 
+static void printPseudo()
+{
+	
+}
+
+static void printFloat()
+{
+	
+}
+
+static void printInt()
+{
+	
+}
+
+static void printDouble()
+{
+	
+}
+
+static void printChar()
+{
+	
+}
 
 void	ScalarConverter::converter(std::string &literal)
 {
 	s_Scalar	scalar;
+	int			literal_type;
 
 	isPseudo(literal, scalar);
-	//Eğer real ise syntax check yapılacak
-	syntax_check(literal, scalar);
+	if (literal_type == REAL)
+		syntax_check(literal, scalar);
 	
 	
 }
