@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:30 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/06 11:25:18 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/06 15:56:02 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,3 @@ int	main(int ac, char **ag)
 		std::cerr << e.what() << '\n';
 	}
 }
-
-	// char	*end;
-	// std::strtod("f.", &end);
-	// std::cout << *end << std::endl;
-	// std::cout << typeid(*end).name() << std::endl;
-	//std::cout << std::fixed << std::setprecision(1) << static_cast<float>(std::strtod("nan", 0)) << std::endl;
