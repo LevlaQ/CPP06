@@ -6,7 +6,13 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 16:26:58 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/06 16:26:59 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/06 18:43:44 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Base.hpp"
+
+Base::~Base()
+{
+	std::cout << "Base destructer called" << std::endl;
+}

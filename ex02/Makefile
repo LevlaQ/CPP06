@@ -6,11 +6,11 @@
 #    By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/02 13:28:35 by gyildiz           #+#    #+#              #
-#    Updated: 2026/08/06 16:26:53 by gyildiz          ###   ########.fr        #
+#    Updated: 2026/08/06 19:40:48 by gyildiz          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.cpp Baze.cpp
+SRCS = main.cpp Base.cpp
 OBJS = $(SRCS:.cpp=.o)
 EXE_NAME = Based
 CXX = c++
