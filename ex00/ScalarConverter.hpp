@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/05 21:15:02 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/06 11:24:59 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ struct s_Scalar
 {
 	double			value;
 	const char		*c_string;
+	int				str_length;
 	e_pseudoLiteral	type;
 };
 

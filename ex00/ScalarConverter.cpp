@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/05 21:31:12 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/06 11:24:15 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ static void	isStringSpace(int str_length, char *&end, s_Scalar &scalar)
 static void	syntax_check(std::string &literal, s_Scalar &scalar)
 {
 	char	*end;
-	int		str_length = literal.length();
-
-	if (str_length == 0)
+	 
+	scalar.str_length = literal.length();
+	if (scalar.str_length == 0)
 		throw	ScalarConverter::ImproperLiteral();
 	scalar.c_string = literal.c_str();
 	scalar.value = std::strtod(scalar.c_string, &end);
 
-	isStringSpace(str_length, end, scalar);
+	isStringSpace(scalar.str_length, end, scalar);
 	if (*end != '\0')
 	{
-		if (str_length > 1)
+		if (scalar.str_length > 1)
 		{
 			if(*end == 'f')
 			{
@@ -74,9 +74,6 @@ static void	syntax_check(std::string &literal, s_Scalar &scalar)
 			else
 				throw ScalarConverter::ImproperLiteral();
 		}
-		else
-			if (!std::isprint(*end))
-				std::cout << "Char: Not displayable" << std::endl;
 	}
 }
 
@@ -87,45 +84,87 @@ static void isPseudo(std::string &literal, s_Scalar &scalar)
 		scalar.type = P_INF;
 	else if (literal == "-inf" || literal == "-inff")
 		scalar.type = N_INF;
-	else if (literal == "N_NAN" || literal == "N_NANf")
+	else if (literal == "nan" || literal == "nanf")
 		scalar.type = N_NAN;
 	else
 		scalar.type = REAL;
 }
 
-static void printPseudo()
+/*
+	Should char print fixed numbers like int do by rounding it?
+*/
+static void printChar(std::string &literal, s_Scalar &scalar)
 {
+	if (scalar.type != REAL)
+		std::cout << "char: impossible" << std::endl;
+	else if (!std::isprint(scalar.value))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: " << static_cast<char>(scalar.value) << std::endl;
+}
+static void printInt(std::string &literal, s_Scalar &scalar)
+{
+	if (scalar.type != REAL)
+		std::cout << "int: impossible" << std::endl;	
+	else if (scalar.value > INT32_MAX && scalar.value < INT32_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(scalar.value) << std::endl;
+}
+static void printFloat(std::string &literal, s_Scalar &scalar)
+{	
+	std::cout << "float: ";
+	switch (scalar.type)
+	{
+		case P_INF:
+			std::cout << "inff" << std::endl;
+			break;
+		case N_INF:
+			std::cout << "-inff" << std::endl;
+			break;
+		case N_NAN:
+			std::cout << "nanf" << std::endl;
+			break;
+		default:
+			std::cout << std::fixed << std::setprecision(1) << \
+			static_cast<float>(scalar.value) << "f" << std::endl;
+			break;
+	}
 	
 }
 
-static void printFloat()
+
+static void printDouble(std::string &literal, s_Scalar &scalar)
 {
-	
+	std::cout << "double: ";
+	switch (scalar.type)
+	{
+		case P_INF:
+			std::cout << "inf" << std::endl;
+			break;
+		case N_INF:
+			std::cout << "-inf" << std::endl;
+			break;
+		case N_NAN:
+			std::cout << "nan" << std::endl;
+			break;
+		default:
+			std::cout << std::fixed << std::setprecision(1) << \
+			static_cast<float>(scalar.value) << std::endl;
+			break;
+	}
 }
 
-static void printInt()
-{
-	
-}
-
-static void printDouble()
-{
-	
-}
-
-static void printChar()
-{
-	
-}
 
 void	ScalarConverter::converter(std::string &literal)
 {
 	s_Scalar	scalar;
-	int			literal_type;
 
 	isPseudo(literal, scalar);
-	if (literal_type == REAL)
+	if (scalar.type == REAL)
 		syntax_check(literal, scalar);
-	
-	
+	printChar(literal, scalar);
+	printInt(literal, scalar);
+	printFloat(literal, scalar);
+	printDouble(literal, scalar);
 }
