@@ -6,7 +6,7 @@
 #    By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/02 13:28:35 by gyildiz           #+#    #+#              #
-#    Updated: 2026/08/06 19:40:48 by gyildiz          ###   ########.fr        #
+#    Updated: 2026/08/06 20:43:59 by gyildiz          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SRCS = main.cpp Base.cpp
 OBJS = $(SRCS:.cpp=.o)
 EXE_NAME = Based
 CXX = c++
-CXXFLAGS = -std=c++98
+CXXFLAGS = -std=c++98 -Wall -Wextra -Werror
 
 all: $(EXE_NAME)
 
