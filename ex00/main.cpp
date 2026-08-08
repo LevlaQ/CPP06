@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:30 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/06 15:56:02 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/08 18:33:31 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 int	main(int ac, char **ag)
 {
-	
 	if (ac != 2)
 	{
 		std::cout << "Proper usage: ./<program> <literal>" << std::endl;

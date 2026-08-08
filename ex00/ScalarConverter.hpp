@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/06 11:24:59 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/08 18:42:48 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <iostream>
 # include <string>
 # include <cstdlib> //strtod()
-# include <limits> //for INT_MAX
+# include <limits.h> //for INT_MAX
 # include <cctype> //isprint()
 # include <iomanip> //setprecision()
 
@@ -46,7 +46,7 @@ class ScalarConverter
 		~ScalarConverter();
 	public:
 		
-		static void converter(std::string &literal); //kopyalasa ne olur referans alsa ne olur
+		static void converter(std::string &literal);
 		class ImproperLiteral : public std::exception
 		{
 			virtual const char	*what() const throw();

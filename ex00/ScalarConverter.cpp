@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/06 12:13:12 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/08 18:39:29 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void isPseudo(std::string &literal, s_Scalar &scalar)
 /*
 	Should char print fixed numbers like int do by rounding it?
 */
-static void printChar(std::string &literal, s_Scalar &scalar)
+static void printChar(s_Scalar &scalar)
 {
 	if (scalar.type != REAL)
 		std::cout << "char: impossible" << std::endl;
@@ -102,16 +102,16 @@ static void printChar(std::string &literal, s_Scalar &scalar)
 	else
 		std::cout << "char: " << static_cast<char>(scalar.value) << std::endl;
 }
-static void printInt(std::string &literal, s_Scalar &scalar)
+static void printInt(s_Scalar &scalar)
 {
 	if (scalar.type != REAL)
-		std::cout << "int: impossible" << std::endl;	
-	else if (scalar.value > INT32_MAX && scalar.value < INT32_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else if (scalar.value > INT_MAX && scalar.value < INT_MIN)
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(scalar.value) << std::endl;
 }
-static void printFloat(std::string &literal, s_Scalar &scalar)
+static void printFloat(s_Scalar &scalar)
 {	
 	std::cout << "float: ";
 	switch (scalar.type)
@@ -134,7 +134,7 @@ static void printFloat(std::string &literal, s_Scalar &scalar)
 }
 
 
-static void printDouble(std::string &literal, s_Scalar &scalar)
+static void printDouble(s_Scalar &scalar)
 {
 	std::cout << "double: ";
 	switch (scalar.type)
@@ -163,8 +163,8 @@ void	ScalarConverter::converter(std::string &literal)
 	isPseudo(literal, scalar);
 	if (scalar.type == REAL)
 		syntax_check(literal, scalar);
-	printChar(literal, scalar);
-	printInt(literal, scalar);
-	printFloat(literal, scalar);
-	printDouble(literal, scalar);
+	printChar(scalar);
+	printInt(scalar);
+	printFloat(scalar);
+	printDouble(scalar);
 }
