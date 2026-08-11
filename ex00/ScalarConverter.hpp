@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/08 18:42:48 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/11 16:10:41 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 # include <limits.h> //for INT_MAX
 # include <cctype> //isprint()
 # include <iomanip> //setprecision()
+
+enum e_literal_type
+{
+	CHAR,
+	INT,
+	FLOAT,
+	DOUBLE
+};
 
 enum e_pseudoLiteral
 {
@@ -32,7 +40,8 @@ struct s_Scalar
 	double			value;
 	const char		*c_string;
 	int				str_length;
-	e_pseudoLiteral	type;
+	e_pseudoLiteral	p_type;
+	e_literal_type	l_type;
 };
 
 class ScalarConverter

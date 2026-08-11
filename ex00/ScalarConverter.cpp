@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/08 18:39:29 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/11 16:41:34 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ const char	*ScalarConverter::ImproperLiteral::what() const throw()
 	return ("Literal you have used is improper");
 }
 
+static int	count(const std::string &literal, char target)
+{
+	int	count = 0;
+	
+	for (size_t i = 0 ; i < literal.length() ; i++)
+	{
+		if (literal[i] == target)
+			count++;
+	}
+	return (count);
+}
+
 static void	isStringSpace(int str_length, char *&end, s_Scalar &scalar)
 {
 	if (str_length > 1)
@@ -51,7 +63,12 @@ static void	isStringSpace(int str_length, char *&end, s_Scalar &scalar)
 	}
 }
 
-static void	syntax_check(std::string &literal, s_Scalar &scalar)
+static void	type_check(const std::string &literal, char target, s_Scalar &scalar)
+{
+	isPseudo(literal, scalar);
+}
+
+static void	syntax_check(const std::string &literal, s_Scalar &scalar)
 {
 	char	*end;
 	 
@@ -60,7 +77,6 @@ static void	syntax_check(std::string &literal, s_Scalar &scalar)
 		throw	ScalarConverter::ImproperLiteral();
 	scalar.c_string = literal.c_str();
 	scalar.value = std::strtod(scalar.c_string, &end);
-
 	isStringSpace(scalar.str_length, end, scalar);
 	if (*end != '\0')
 	{
@@ -74,39 +90,38 @@ static void	syntax_check(std::string &literal, s_Scalar &scalar)
 			else
 				throw ScalarConverter::ImproperLiteral();
 		}
+		else
+			scalar.value = static_cast<double>(*end);
 	}
 }
 
-static void isPseudo(std::string &literal, s_Scalar &scalar)
+static void isPseudo(const std::string &literal, s_Scalar &scalar)
 {
 	if (literal == "inf" || literal == "+inf" || literal == "inff" ||\
 		literal == "+inff")
-		scalar.type = P_INF;
+		scalar.p_type = P_INF;
 	else if (literal == "-inf" || literal == "-inff")
-		scalar.type = N_INF;
+		scalar.p_type = N_INF;
 	else if (literal == "nan" || literal == "nanf")
-		scalar.type = N_NAN;
+		scalar.p_type = N_NAN;
 	else
-		scalar.type = REAL;
+		scalar.p_type = REAL;
 }
 
-/*
-	Should char print fixed numbers like int do by rounding it?
-*/
 static void printChar(s_Scalar &scalar)
 {
-	if (scalar.type != REAL)
+	if (scalar.p_type != REAL || !(scalar.value >= 0 && scalar.value <= 250))
 		std::cout << "char: impossible" << std::endl;
-	else if (!std::isprint(scalar.value))
+	else if (!std::isprint(static_cast<int>(scalar.value)))
 		std::cout << "char: Non displayable" << std::endl;
 	else
 		std::cout << "char: " << static_cast<char>(scalar.value) << std::endl;
 }
 static void printInt(s_Scalar &scalar)
 {
-	if (scalar.type != REAL)
+	if (scalar.p_type != REAL)
 		std::cout << "int: impossible" << std::endl;
-	else if (scalar.value > INT_MAX && scalar.value < INT_MIN)
+	else if (scalar.value > INT_MAX || scalar.value < INT_MIN)
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(scalar.value) << std::endl;
@@ -114,7 +129,7 @@ static void printInt(s_Scalar &scalar)
 static void printFloat(s_Scalar &scalar)
 {	
 	std::cout << "float: ";
-	switch (scalar.type)
+	switch (scalar.p_type)
 	{
 		case P_INF:
 			std::cout << "inff" << std::endl;
@@ -137,7 +152,7 @@ static void printFloat(s_Scalar &scalar)
 static void printDouble(s_Scalar &scalar)
 {
 	std::cout << "double: ";
-	switch (scalar.type)
+	switch (scalar.p_type)
 	{
 		case P_INF:
 			std::cout << "inf" << std::endl;
@@ -161,7 +176,7 @@ void	ScalarConverter::converter(std::string &literal)
 	s_Scalar	scalar;
 
 	isPseudo(literal, scalar);
-	if (scalar.type == REAL)
+	if (scalar.p_type == REAL)
 		syntax_check(literal, scalar);
 	printChar(scalar);
 	printInt(scalar);
