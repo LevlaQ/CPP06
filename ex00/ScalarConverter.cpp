@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/11 16:41:34 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/11 18:50:46 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,46 +54,78 @@ static int	count(const std::string &literal, char target)
 	return (count);
 }
 
-static void	isStringSpace(int str_length, char *&end, s_Scalar &scalar)
+static void	type_check(const std::string &literal, s_Scalar &scalar)
 {
-	if (str_length > 1)
+	if (literal.size() == 1 &&\
+	 !std::isdigit(static_cast<unsigned char>(literal[0])))
 	{
-		if (scalar.c_string[0] == ' ' || *end == ' ')
-			throw ScalarConverter::ImproperLiteral();
+		scalar.l_type = CHAR;
+		return;
 	}
+	
+	/*
+		From that point on, the string is either empty or a string with
+		multiple chars, now we are dealing with numbers.
+	*/
+
+	syntax_check_for_num(literal);
+
+	bool hasDot = literal.find('.') != std::string::npos;
+	bool hasF   = !literal.empty() && literal[literal.size() - 1] == 'f';
+	
+	if (hasDot && hasF)
+		scalar.l_type = FLOAT;
+	else if (hasDot && !hasF)
+		scalar.l_type = DOUBLE;
+	else if (!hasDot && !hasF)
+		scalar.l_type = INT;
+	else
+		throw ScalarConverter::ImproperLiteral();
 }
 
-static void	type_check(const std::string &literal, char target, s_Scalar &scalar)
+/*
+	Öncelikle literal size 0'mı, tek bir kere bulunması gereken karakter
+	ler tekrar etmiş mi kontrolü yapılıyor.
+	
+	Sonrasında uygunsuz yerlerde izin verilen işaretlerin kullanılması
+	alakalı kural eklenmesi lazım
+*/
+static void	syntax_check_for_num(const std::string &literal)
 {
-	isPseudo(literal, scalar);
+
+	if (literal.size() == 0 || count(literal, 'f') > 1 ||\
+	 count(literal, '.') > 1 || count(literal, '+') > 1 \
+	 || count(literal, '-') > 1)
+		throw ScalarConverter::ImproperLiteral();
+	
 }
 
-static void	syntax_check(const std::string &literal, s_Scalar &scalar)
-{
-	char	*end;
+// static void	syntax_check(const std::string &literal, s_Scalar &scalar)
+// {
+// 	char	*end;
 	 
-	scalar.str_length = literal.length();
-	if (scalar.str_length == 0)
-		throw	ScalarConverter::ImproperLiteral();
-	scalar.c_string = literal.c_str();
-	scalar.value = std::strtod(scalar.c_string, &end);
-	isStringSpace(scalar.str_length, end, scalar);
-	if (*end != '\0')
-	{
-		if (scalar.str_length > 1)
-		{
-			if(*end == 'f')
-			{
-				if(*(end + 1) != '\0')
-					throw ScalarConverter::ImproperLiteral();
-			}
-			else
-				throw ScalarConverter::ImproperLiteral();
-		}
-		else
-			scalar.value = static_cast<double>(*end);
-	}
-}
+// 	scalar.str_length = literal.length();
+// 	if (scalar.str_length == 0)
+// 		throw	ScalarConverter::ImproperLiteral();
+// 	scalar.c_string = literal.c_str();
+// 	scalar.value = std::strtod(scalar.c_string, &end);
+// 	isStringSpace(scalar.str_length, end, scalar);
+// 	if (*end != '\0')
+// 	{
+// 		if (scalar.str_length > 1)
+// 		{
+// 			if(*end == 'f')
+// 			{
+// 				if(*(end + 1) != '\0')
+// 					throw ScalarConverter::ImproperLiteral();
+// 			}
+// 			else
+// 				throw ScalarConverter::ImproperLiteral();
+// 		}
+// 		else
+// 			scalar.value = static_cast<double>(*end);
+// 	}
+// }
 
 static void isPseudo(const std::string &literal, s_Scalar &scalar)
 {
@@ -107,6 +139,7 @@ static void isPseudo(const std::string &literal, s_Scalar &scalar)
 	else
 		scalar.p_type = REAL;
 }
+
 
 static void printChar(s_Scalar &scalar)
 {

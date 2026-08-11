@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/11 16:10:41 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/11 17:08:57 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ enum e_pseudoLiteral
 
 struct s_Scalar
 {
-	double			value;
+	char			c_value;
+	int				i_value;
+	double			d_value;
+	float			f_value;
 	const char		*c_string;
 	int				str_length;
 	e_pseudoLiteral	p_type;
