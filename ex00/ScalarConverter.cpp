@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/11 18:50:46 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/11 21:07:27 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,63 @@ static int	count(const std::string &literal, char target)
 	return (count);
 }
 
+/*
+	Are there any whitespces in the string that we are sure it is numeral?
+	If there are any whitepaces returns 0
+*/
+static int isWhiteSpace_string(const std::string &literal)
+{
+	for (size_t i = 0; i < literal.size(); i++)
+	{
+		if (std::strchr(WS, literal[i]))
+			return (0);
+	}
+	return(1);
+}
+
+static int isTruly_numeral(const std::string &literal)
+{
+	for (size_t i = 0; i < literal.size(); i++)
+	{
+		if (std::isprint(static_cast<int>(literal[i])))
+		{
+			if (!std::isdigit(static_cast<int>(literal[i])) &&\
+			 !std::strchr(SIGN, literal[i]))
+				return (0);
+		}
+	}
+	return (1);
+}
+
+/*
+	Is the literal size 0? If it is not these special chars such as
+	f, ., + and - must occur only once in the string.
+
+	And then we are checking these special chars' positions.
+
+	And there must be no white_space in the number literal
+*/
+static void	syntax_check_for_num(const std::string &literal)
+{
+	if (literal.size() == 0 )
+		throw ScalarConverter::ImproperLiteral();
+	else if (!isTruly_numeral(literal) || !isWhiteSpace_string(literal))
+		throw ScalarConverter::ImproperLiteral();
+	else if (count(literal, 'f') > 1 ||\
+	 count(literal, '.') > 1 || count(literal, '+') > 1 \
+	 || count(literal, '-') > 1)
+		throw ScalarConverter::ImproperLiteral();
+	else if ((literal.find('f') != std::string::npos) && \
+	literal[literal.size() - 1] != 'f')
+		throw ScalarConverter::ImproperLiteral();
+	else if ((literal.find('+') != std::string::npos) && \
+	literal[0] != '+')
+		throw ScalarConverter::ImproperLiteral();
+	else if ((literal.find('-') != std::string::npos) && \
+	literal[0] != '-')
+		throw ScalarConverter::ImproperLiteral();
+}
+
 static void	type_check(const std::string &literal, s_Scalar &scalar)
 {
 	if (literal.size() == 1 &&\
@@ -83,136 +140,111 @@ static void	type_check(const std::string &literal, s_Scalar &scalar)
 		throw ScalarConverter::ImproperLiteral();
 }
 
-/*
-	Öncelikle literal size 0'mı, tek bir kere bulunması gereken karakter
-	ler tekrar etmiş mi kontrolü yapılıyor.
-	
-	Sonrasında uygunsuz yerlerde izin verilen işaretlerin kullanılması
-	alakalı kural eklenmesi lazım
-*/
-static void	syntax_check_for_num(const std::string &literal)
-{
-
-	if (literal.size() == 0 || count(literal, 'f') > 1 ||\
-	 count(literal, '.') > 1 || count(literal, '+') > 1 \
-	 || count(literal, '-') > 1)
-		throw ScalarConverter::ImproperLiteral();
-	
-}
-
-// static void	syntax_check(const std::string &literal, s_Scalar &scalar)
-// {
-// 	char	*end;
-	 
-// 	scalar.str_length = literal.length();
-// 	if (scalar.str_length == 0)
-// 		throw	ScalarConverter::ImproperLiteral();
-// 	scalar.c_string = literal.c_str();
-// 	scalar.value = std::strtod(scalar.c_string, &end);
-// 	isStringSpace(scalar.str_length, end, scalar);
-// 	if (*end != '\0')
-// 	{
-// 		if (scalar.str_length > 1)
-// 		{
-// 			if(*end == 'f')
-// 			{
-// 				if(*(end + 1) != '\0')
-// 					throw ScalarConverter::ImproperLiteral();
-// 			}
-// 			else
-// 				throw ScalarConverter::ImproperLiteral();
-// 		}
-// 		else
-// 			scalar.value = static_cast<double>(*end);
-// 	}
-// }
-
 static void isPseudo(const std::string &literal, s_Scalar &scalar)
 {
 	if (literal == "inf" || literal == "+inf" || literal == "inff" ||\
 		literal == "+inff")
-		scalar.p_type = P_INF;
+		scalar.l_type = P_INF;
 	else if (literal == "-inf" || literal == "-inff")
-		scalar.p_type = N_INF;
+		scalar.l_type = N_INF;
 	else if (literal == "nan" || literal == "nanf")
-		scalar.p_type = N_NAN;
+		scalar.l_type = N_NAN;
 	else
-		scalar.p_type = REAL;
+		return;
 }
 
 
-static void printChar(s_Scalar &scalar)
+static void printChar(const std::string &literal)
 {
-	if (scalar.p_type != REAL || !(scalar.value >= 0 && scalar.value <= 250))
-		std::cout << "char: impossible" << std::endl;
-	else if (!std::isprint(static_cast<int>(scalar.value)))
-		std::cout << "char: Non displayable" << std::endl;
-	else
-		std::cout << "char: " << static_cast<char>(scalar.value) << std::endl;
+	// if (scalar.l_type != REAL || !(scalar.value >= 0 && scalar.value <= 250))
+	// 	std::cout << "char: impossible" << std::endl;
+	// else if (!std::isprint(static_cast<int>(scalar.value)))
+	// 	std::cout << "char: Non displayable" << std::endl;
+	// else
+	// 	std::cout << "char: " << static_cast<char>(scalar.value) << std::endl;
 }
-static void printInt(s_Scalar &scalar)
+
+static void printInt(const std::string &literal)
 {
-	if (scalar.p_type != REAL)
-		std::cout << "int: impossible" << std::endl;
-	else if (scalar.value > INT_MAX || scalar.value < INT_MIN)
-		std::cout << "int: impossible" << std::endl;
-	else
-		std::cout << "int: " << static_cast<int>(scalar.value) << std::endl;
+	// if (scalar.l_type != REAL)
+	// 	std::cout << "int: impossible" << std::endl;
+	// else if (scalar.value > INT_MAX || scalar.value < INT_MIN)
+	// 	std::cout << "int: impossible" << std::endl;
+	// else
+	// 	std::cout << "int: " << static_cast<int>(scalar.value) << std::endl;
 }
-static void printFloat(s_Scalar &scalar)
+
+static void printFloat(const std::string &literal)
 {	
-	std::cout << "float: ";
-	switch (scalar.p_type)
-	{
-		case P_INF:
-			std::cout << "inff" << std::endl;
-			break;
-		case N_INF:
-			std::cout << "-inff" << std::endl;
-			break;
-		case N_NAN:
-			std::cout << "nanf" << std::endl;
-			break;
-		default:
-			std::cout << std::fixed << std::setprecision(1) << \
-			static_cast<float>(scalar.value) << "f" << std::endl;
-			break;
-	}
+	// std::cout << "float: ";
+	// switch (scalar.l_type)
+	// {
+	// 	case P_INF:
+	// 		std::cout << "inff" << std::endl;
+	// 		break;
+	// 	case N_INF:
+	// 		std::cout << "-inff" << std::endl;
+	// 		break;
+	// 	case N_NAN:
+	// 		std::cout << "nanf" << std::endl;
+	// 		break;
+	// 	default:
+	// 		std::cout << std::fixed << std::setprecision(1) << \
+	// 		static_cast<float>(scalar.value) << "f" << std::endl;
+	// 		break;
+	// }
 	
 }
 
-
-static void printDouble(s_Scalar &scalar)
+static void printDouble(const std::string &literal)
 {
-	std::cout << "double: ";
-	switch (scalar.p_type)
-	{
-		case P_INF:
-			std::cout << "inf" << std::endl;
-			break;
-		case N_INF:
-			std::cout << "-inf" << std::endl;
-			break;
-		case N_NAN:
-			std::cout << "nan" << std::endl;
-			break;
-		default:
-			std::cout << std::fixed << std::setprecision(1) << \
-			static_cast<float>(scalar.value) << std::endl;
-			break;
-	}
+	// std::cout << "double: ";
+	// switch (scalar.l_type)
+	// {
+	// 	case P_INF:
+	// 		std::cout << "inf" << std::endl;
+	// 		break;
+	// 	case N_INF:
+	// 		std::cout << "-inf" << std::endl;
+	// 		break;
+	// 	case N_NAN:
+	// 		std::cout << "nan" << std::endl;
+	// 		break;
+	// 	default:
+	// 		std::cout << std::fixed << std::setprecision(1) << \
+	// 		static_cast<float>(scalar.value) << std::endl;
+	// 		break;
+	// }
 }
 
+static void print_pseudo_literal\
+(const std::string &literal, s_Scalar &ScalarConverter)
+{
+	
+}
 
 void	ScalarConverter::converter(std::string &literal)
 {
 	s_Scalar	scalar;
 
 	isPseudo(literal, scalar);
-	if (scalar.p_type == REAL)
-		syntax_check(literal, scalar);
-	printChar(scalar);
-	printInt(scalar);
-	printFloat(scalar);
-	printDouble(scalar);
+	if (scalar.l_type > N_NAN)
+		type_check(literal, scalar);
+	switch (scalar.l_type)
+	{
+		case CHAR:
+			printChar(literal);
+			break;
+		case INT:
+			printInt(literal);
+			break;
+		case DOUBLE:
+			printDouble(literal);
+			break;
+		case FLOAT:
+			printFloat(literal);
+			break;
+		default:
+			print_pseudo_literal(literal, scalar);
+	}
 }

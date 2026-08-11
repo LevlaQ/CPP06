@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/11 17:08:57 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/11 20:45:47 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,24 @@
 # include <limits.h> //for INT_MAX
 # include <cctype> //isprint()
 # include <iomanip> //setprecision()
+#include <cstring> //strchr()
+
+# define WS "\t\r\n\v "
+# define SIGN "+-.f"
 
 enum e_literal_type
 {
+	P_INF,
+	N_INF,
+	N_NAN,
 	CHAR,
 	INT,
 	FLOAT,
 	DOUBLE
 };
 
-enum e_pseudoLiteral
-{
-	P_INF,
-	N_INF,
-	N_NAN,
-	REAL
-};
-
 struct s_Scalar
 {
-	char			c_value;
-	int				i_value;
-	double			d_value;
-	float			f_value;
-	const char		*c_string;
-	int				str_length;
-	e_pseudoLiteral	p_type;
 	e_literal_type	l_type;
 };
 
