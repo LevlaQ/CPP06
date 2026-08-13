@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/13 18:05:57 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 18:15:47 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ static void printDouble(const std::string &literal)
 	std::cout << std::fixed << std::setprecision(1) << \
 	d << std::endl;
 	
-	// Print float
+	// Print float from double
 	std::cout << "float: ";
 	std::cout << std::fixed << std::setprecision(1) << \
 	static_cast<float>(d) << "f" << std::endl;
