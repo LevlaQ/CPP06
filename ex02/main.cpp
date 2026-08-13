@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 16:27:02 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/06 19:52:06 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 17:29:52 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,7 @@ int	main(void)
 	delete first_class;
 	delete second_class;
 	delete third_class;
+	delete fourth_class;
+	delete fifth_class;
+	delete sixth_class;
 }
