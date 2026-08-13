@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/11 20:45:47 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 13:49:53 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <limits.h> //for INT_MAX
 # include <cctype> //isprint()
 # include <iomanip> //setprecision()
-#include <cstring> //strchr()
+# include <cstring> //strchr()
+# include <sstream> //string stream
 
 # define WS "\t\r\n\v "
 # define SIGN "+-.f"
@@ -51,6 +52,10 @@ class ScalarConverter
 	public:
 		
 		static void converter(std::string &literal);
+		class StreamError : public std::exception
+		{
+			virtual const char	*what() const throw();
+		};
 		class ImproperLiteral : public std::exception
 		{
 			virtual const char	*what() const throw();

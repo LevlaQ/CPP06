@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/11 21:07:27 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 13:55:05 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ const char	*ScalarConverter::ImproperLiteral::what() const throw()
 {
 	return ("Literal you have used is improper");
 }
+
+const char	*ScalarConverter::StreamError::what() const throw()
+{
+	return ("An error occured with String stream");
+}
+
 
 static int	count(const std::string &literal, char target)
 {
@@ -140,6 +146,10 @@ static void	type_check(const std::string &literal, s_Scalar &scalar)
 		throw ScalarConverter::ImproperLiteral();
 }
 
+/*
+	If the program is not pseudo_literal, then we assign a temp CHAR
+	enum to tell the program we are dealing with another type of string.
+*/
 static void isPseudo(const std::string &literal, s_Scalar &scalar)
 {
 	if (literal == "inf" || literal == "+inf" || literal == "inff" ||\
@@ -150,77 +160,177 @@ static void isPseudo(const std::string &literal, s_Scalar &scalar)
 	else if (literal == "nan" || literal == "nanf")
 		scalar.l_type = N_NAN;
 	else
-		return;
+		scalar.l_type = CHAR;
 }
 
 
 static void printChar(const std::string &literal)
 {
-	// if (scalar.l_type != REAL || !(scalar.value >= 0 && scalar.value <= 250))
-	// 	std::cout << "char: impossible" << std::endl;
-	// else if (!std::isprint(static_cast<int>(scalar.value)))
-	// 	std::cout << "char: Non displayable" << std::endl;
-	// else
-	// 	std::cout << "char: " << static_cast<char>(scalar.value) << std::endl;
+	std::stringstream ss(literal);
+	char c;
+	ss >> c;
+
+	if (ss.fail())
+		throw ScalarConverter::StreamError();
+
+	// Printing the char
+	if (!std::isprint(static_cast<int>(c)))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: " << "'" << c << "'" << std::endl;
+	
+	// Print the int from char
+	std::cout << "int: " << static_cast<int>(c) << std::endl;
+
+	// Print the double from char
+	std::cout << "double: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	static_cast<double>(c) << std::endl;
+
+	// Print the float from char
+	std::cout << "float: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	static_cast<float>(c) << "f" << std::endl;
+	
 }
 
 static void printInt(const std::string &literal)
 {
-	// if (scalar.l_type != REAL)
-	// 	std::cout << "int: impossible" << std::endl;
-	// else if (scalar.value > INT_MAX || scalar.value < INT_MIN)
-	// 	std::cout << "int: impossible" << std::endl;
-	// else
-	// 	std::cout << "int: " << static_cast<int>(scalar.value) << std::endl;
-}
+	std::stringstream ss(literal);
+	double i;
+	ss >> i;
 
-static void printFloat(const std::string &literal)
-{	
-	// std::cout << "float: ";
-	// switch (scalar.l_type)
-	// {
-	// 	case P_INF:
-	// 		std::cout << "inff" << std::endl;
-	// 		break;
-	// 	case N_INF:
-	// 		std::cout << "-inff" << std::endl;
-	// 		break;
-	// 	case N_NAN:
-	// 		std::cout << "nanf" << std::endl;
-	// 		break;
-	// 	default:
-	// 		std::cout << std::fixed << std::setprecision(1) << \
-	// 		static_cast<float>(scalar.value) << "f" << std::endl;
-	// 		break;
-	// }
+	if (ss.fail())
+		throw ScalarConverter::StreamError();
+
+	// Printing char from int
+	if (!(static_cast<int>(i) >= 0 && static_cast<int>(i) <= 250))
+		std::cout << "char: impossible" << std::endl;
+	else if (!std::isprint(static_cast<int>(i)))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: " << "'" << static_cast<char>(i) << "'" << std::endl;
+
+	// Printing int
+	if (i > INT_MAX || i < INT_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(i) << std::endl;
+
+	// Print double
+	std::cout << "double: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	static_cast<double>(i) << std::endl;
+
+	// Print float
+	std::cout << "float: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	static_cast<float>(i) << "f" << std::endl;
 	
 }
 
 static void printDouble(const std::string &literal)
 {
-	// std::cout << "double: ";
-	// switch (scalar.l_type)
-	// {
-	// 	case P_INF:
-	// 		std::cout << "inf" << std::endl;
-	// 		break;
-	// 	case N_INF:
-	// 		std::cout << "-inf" << std::endl;
-	// 		break;
-	// 	case N_NAN:
-	// 		std::cout << "nan" << std::endl;
-	// 		break;
-	// 	default:
-	// 		std::cout << std::fixed << std::setprecision(1) << \
-	// 		static_cast<float>(scalar.value) << std::endl;
-	// 		break;
-	// }
+	std::stringstream ss(literal);
+	double d;
+	ss >> d;
+
+	if (ss.fail())
+		throw ScalarConverter::StreamError();
+
+	// Print char from double
+	if (!(static_cast<int>(d) >= 0 && static_cast<int>(d) <= 250))
+		std::cout << "char: impossible" << std::endl;
+	else if (!std::isprint(static_cast<int>(d)))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: " << "'" << static_cast<char>(d) << "'" << std::endl;
+	
+	// Print int from double
+	if (d > INT_MAX || d < INT_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(d) << std::endl;
+
+	// Print double
+	std::cout << "double: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	d << std::endl;
+	
+	// Print float
+	std::cout << "float: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	static_cast<float>(d) << "f" << std::endl;
 }
 
-static void print_pseudo_literal\
-(const std::string &literal, s_Scalar &ScalarConverter)
-{
+static void printFloat(const std::string &literal)
+{	
+	std::stringstream ss(literal);
+	float f;
+	ss >> f;
 	
+	if (ss.fail())
+		throw ScalarConverter::StreamError();
+
+	// Print char from float
+	if (!(static_cast<int>(f) >= 0 && static_cast<int>(f) <= 250))
+		std::cout << "char: impossible" << std::endl;
+	else if (!std::isprint(static_cast<int>(f)))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: " << "'" << static_cast<char>(f) << "'" << std::endl;
+
+	// Print int from float
+	if (f > INT_MAX || f < INT_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(f) << std::endl;
+
+	// Print double from float
+	std::cout << "double: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	static_cast<double>(f) << std::endl;
+
+	// Print float
+	std::cout << "float: ";
+	std::cout << std::fixed << std::setprecision(1) << \
+	f << "f" << std::endl;
+}
+
+static void print_pseudo_literal(s_Scalar &ScalarConverter)
+{
+	std::cout << "char: impossible" << std::endl;
+	std::cout << "int: impossible" << std::endl;
+	std::cout << "float: ";
+	switch (ScalarConverter.l_type)
+	{
+		case P_INF:
+			std::cout << "inff" << std::endl;
+			break;
+		case N_INF:
+			std::cout << "-inff" << std::endl;
+			break;
+		case N_NAN:
+			std::cout << "nanf" << std::endl;
+			break;
+		default:
+			std::cout << "??" << std::endl;
+	}
+	std::cout << "double: ";
+	switch (ScalarConverter.l_type)
+	{
+		case P_INF:
+			std::cout << "inf" << std::endl;
+			break;
+		case N_INF:
+			std::cout << "-inf" << std::endl;
+			break;
+		case N_NAN:
+			std::cout << "nan" << std::endl;
+			break;
+		default:
+			std::cout << "??" << std::endl;
+	}
 }
 
 void	ScalarConverter::converter(std::string &literal)
@@ -245,6 +355,6 @@ void	ScalarConverter::converter(std::string &literal)
 			printFloat(literal);
 			break;
 		default:
-			print_pseudo_literal(literal, scalar);
+			print_pseudo_literal(scalar);
 	}
 }
