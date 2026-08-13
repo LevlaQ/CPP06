@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/13 17:41:27 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 17:57:11 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,15 +166,23 @@ static void isPseudo(const std::string &literal, s_Scalar &scalar)
 		scalar.l_type = CHAR;
 }
 
-
+/*
+	Because stream fails at the spacial case of ' ' (space), we need to add
+	additional if-else statement
+*/
 static void printChar(const std::string &literal)
 {
-	std::stringstream ss(literal);
 	char c;
-	ss >> c;
-
-	if (ss.fail())
-		throw ScalarConverter::StreamError();
+	
+	if (literal[0] == ' ')
+		c = ' ';
+	else
+	{
+		std::stringstream ss(literal);
+		ss >> c;
+		if (ss.fail())
+			throw ScalarConverter::StreamError();
+	}
 
 	// Printing the char
 	if (!std::isprint(static_cast<int>(c)))
