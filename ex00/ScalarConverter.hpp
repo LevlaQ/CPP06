@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:09 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/13 13:49:53 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 16:53:07 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ class ScalarConverter
 		~ScalarConverter();
 	public:
 		
-		static void converter(std::string &literal);
+		static void convert(std::string &literal);
 		class StreamError : public std::exception
 		{
 			virtual const char	*what() const throw();

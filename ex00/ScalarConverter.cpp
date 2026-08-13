@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/13 15:02:10 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 17:41:27 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,7 @@ static void print_pseudo_literal(s_Scalar &ScalarConverter)
 	}
 }
 
-void	ScalarConverter::converter(std::string &literal)
+void	ScalarConverter::convert(std::string &literal)
 {
 	s_Scalar	scalar;
 

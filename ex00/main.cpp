@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:30 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/13 14:46:30 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 16:55:26 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **ag)
 	std::string	literal = ag[1];
 	try
 	{
-		ScalarConverter::converter(literal);
+		ScalarConverter::convert(literal);
 	}
 	catch(const std::exception& e)
 	{
