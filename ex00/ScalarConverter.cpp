@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/13 13:55:05 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/13 15:02:10 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ static void	syntax_check_for_num(const std::string &literal)
 	else if ((literal.find('f') != std::string::npos) && \
 	literal[literal.size() - 1] != 'f')
 		throw ScalarConverter::ImproperLiteral();
+	else if ((literal.find('f') != std::string::npos) && \
+	!std::isdigit(static_cast<int>(literal[literal.size() - 2])))
+		throw ScalarConverter::ImproperLiteral();
 	else if ((literal.find('+') != std::string::npos) && \
 	literal[0] != '+')
 		throw ScalarConverter::ImproperLiteral();
@@ -196,12 +199,9 @@ static void printChar(const std::string &literal)
 
 static void printInt(const std::string &literal)
 {
-	std::stringstream ss(literal);
 	double i;
-	ss >> i;
 
-	if (ss.fail())
-		throw ScalarConverter::StreamError();
+	i = std::strtod(literal.c_str(), NULL);
 
 	// Printing char from int
 	if (!(static_cast<int>(i) >= 0 && static_cast<int>(i) <= 250))
@@ -229,14 +229,14 @@ static void printInt(const std::string &literal)
 	
 }
 
+/*
+	strtod() usage is a must
+*/
 static void printDouble(const std::string &literal)
 {
-	std::stringstream ss(literal);
 	double d;
-	ss >> d;
 
-	if (ss.fail())
-		throw ScalarConverter::StreamError();
+	d = std::strtod(literal.c_str(), NULL);
 
 	// Print char from double
 	if (!(static_cast<int>(d) >= 0 && static_cast<int>(d) <= 250))
