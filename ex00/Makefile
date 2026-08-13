@@ -6,15 +6,15 @@
 #    By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/02 13:28:35 by gyildiz           #+#    #+#              #
-#    Updated: 2026/08/13 16:56:19 by gyildiz          ###   ########.fr        #
+#    Updated: 2026/08/13 18:03:42 by gyildiz          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = main.cpp ScalarConverter.cpp
 OBJS = $(SRCS:.cpp=.o)
 EXE_NAME = convert
-CXX = g++
-CXXFLAGS = -g -std=c++98 -Wall -Wextra -Werror
+CXX = c++
+CXXFLAGS = -std=c++98 -Wall -Wextra -Werror
 
 all: $(EXE_NAME)
 
