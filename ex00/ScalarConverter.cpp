@@ -6,7 +6,7 @@
 /*   By: gyildiz <gyildiz@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 13:28:13 by gyildiz           #+#    #+#             */
-/*   Updated: 2026/08/13 18:15:47 by gyildiz          ###   ########.fr       */
+/*   Updated: 2026/08/18 13:07:34 by gyildiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ static void printInt(const std::string &literal)
 		std::cout << "char: " << "'" << static_cast<char>(i) << "'" << std::endl;
 
 	// Printing int
-	if (static_cast<int>(i) > INT_MAX || static_cast<int>(i) < INT_MIN)
+	if (i > INT_MAX || i < INT_MIN)
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(i) << std::endl;
@@ -255,7 +255,7 @@ static void printDouble(const std::string &literal)
 		std::cout << "char: " << "'" << static_cast<char>(d) << "'" << std::endl;
 	
 	// Print int from double
-	if (static_cast<int>(d) > INT_MAX || static_cast<int>(d) < INT_MIN)
+	if (d > INT_MAX || d < INT_MIN)
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(d) << std::endl;
@@ -289,7 +289,7 @@ static void printFloat(const std::string &literal)
 		std::cout << "char: " << "'" << static_cast<char>(f) << "'" << std::endl;
 
 	// Print int from float
-	if (static_cast<int>(f) > INT_MAX || static_cast<int>(f) < INT_MIN)
+	if (f > INT_MAX || f < INT_MIN)
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(f) << std::endl;
